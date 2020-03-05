@@ -106,12 +106,11 @@ function Bank(name, initCustomerList)
 	this.customers = {};
 	
 	// The welcome banner ad!
-	for(var i = 0; i < 3; i++)
-	{
 		console.log("Welcome to ", name, "!\n");
-	}
+
 		
 	// Initialize the customer map
+	let i = 0;
 	while(i < initCustomerList.length)
 	{
 		// Get the customer
