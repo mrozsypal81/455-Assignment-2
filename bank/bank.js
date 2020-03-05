@@ -121,6 +121,8 @@ function Bank(name, initCustomerList)
 		// Next user!	
 		i += 1;	
 	}
+}
+
 	
 	// -------------------------------------------------------------
 	// Creates a new user with the specified user name and password.
@@ -129,7 +131,7 @@ function Bank(name, initCustomerList)
 	// @param userPassword - the user password
 	// The newly created user.
 	// -------------------------------------------------------------
-	this.createAndAddCustomer = function(userName, userPassword)
+	Bank.prototype.createAndAddCustomer = function(userName, userPassword)
 	{
 		// Create a new customer
 		var customer = new Customer(userName, userPassword);	
@@ -141,7 +143,7 @@ function Bank(name, initCustomerList)
 	// ----------------------------------------------
 	// Allows the user to enroll in the bank (the UI)
 	// ----------------------------------------------
-	this.createCustomerUI = function()
+	Bank.prototype.createCustomerUI = function()
 	{
 		// Create user name
 		var userName = readline.question("Please pick a user name: ");
@@ -159,7 +161,7 @@ function Bank(name, initCustomerList)
 	// The user action selection menu
 	// @param customer - the customer 
 	// -----------------------------------------------
-	this.userActionMenuUI = function(customer)
+	Bank.prototype.userActionMenuUI = function(customer)
 	{
 		do
 		{
@@ -211,6 +213,7 @@ function Bank(name, initCustomerList)
 				this.openAccountUI(customer);
 			}
 			// Close customer account
+			// Have to implement this function
 			else if(choice == 6)
 			{
 				console.log("Remove Account");
@@ -226,7 +229,7 @@ function Bank(name, initCustomerList)
 	// @param customer - the customer for which
 	// to print the customer
 	// -------------------------------------------
-	this.viewAccounts = function(customer) 
+	Bank.prototype.viewAccounts = function(customer) 
 	{
 		// Get the accounts
 		var accounts = customer.getAccounts();
@@ -248,7 +251,7 @@ function Bank(name, initCustomerList)
 	// ------------------------------------------------------------
 	// Master choice menu
 	// ------------------------------------------------------------
-	this.masterChoice = function()
+	Bank.prototype.masterChoice = function()
 	{
 		do
 		{
@@ -274,7 +277,7 @@ function Bank(name, initCustomerList)
 	// -------------------------------------------------------------
 	// The login menu
 	// -------------------------------------------------------------
-	this.loginUI = function()
+	Bank.prototype.loginUI = function()
 	{
 		do
 		{
@@ -305,7 +308,7 @@ function Bank(name, initCustomerList)
 	// @param userName - the user name
 	// @param userPassword - the user password
 	// -----------------------------------------------
-	this.login = function(userName, userPassword)
+	Bank.prototype.login = function(userName, userPassword)
 	{		
 		// The match
 		var match = false;
@@ -334,7 +337,7 @@ function Bank(name, initCustomerList)
 	// @return - the object of type Account rerepsenting
 	// the newly created account
 	// ---------------------------------------------------
-	this.createAccount = function(customer, acctName, initialDeposits, type)
+	Bank.prototype.createAccount = function(customer, acctName, initialDeposits, type)
 	{
 		// Create a new account
 		var account = new Account(acctName, initialDeposits, type);
@@ -349,7 +352,7 @@ function Bank(name, initCustomerList)
 	// @param customer - the customer for whom to open
 	// the account
 	// ------------------------------------------------------
-	this.openAccountUI = function(customer)
+	Bank.prototype.openAccountUI = function(customer)
 	{
 		// The account name
 		var accountName = readline.question("Please choose an account name: ");	
@@ -375,7 +378,7 @@ function Bank(name, initCustomerList)
 	// The UI for depositing money
 	// @param user - the owner of the account
 	// ------------------------------------------------------
-	this.depositUI = function(user)
+	Bank.prototype.depositUI = function(user)
 	{
 		// The deposit account
 		//MIG: Stopped here
@@ -403,7 +406,7 @@ function Bank(name, initCustomerList)
 	// ------------------------------------------------------
 	// The UI for withdrawing the money
 	// ------------------------------------------------------
-	this.withdrawUI = function(customer)
+	Bank.prototype.withdrawUI = function(customer)
 	{	
 		// Show all accounts of the user
 		this.viewAccounts(customer);
@@ -431,7 +434,7 @@ function Bank(name, initCustomerList)
 	// @param customer - the customer for whom to perform the
 	// transaction
 	// -----------------------------------------------------
-	this.transferUI = function(customer)
+	Bank.prototype.transferUI = function(customer)
 	{
 		
 		// Show the account information
@@ -469,7 +472,7 @@ function Bank(name, initCustomerList)
 	// Shows all the user accounts
 	// @param user - the user whose accounts to view
 	// ----------------------------------------------
-	this.showAccounts = function(user)
+	Bank.prototype.showAccounts = function(user)
 	{
 		// Get the accounts
 		var accounts = user.getAccounts();
@@ -491,13 +494,13 @@ function Bank(name, initCustomerList)
 	// @param userName - the user name
 	// @return - the user name
 	// --------------------------------------------
-	this.getCustomer = function(userName) 
+	Bank.prototype.getCustomer = function(userName) 
 	{ 
 		return this.customers[userName]; 
 	}
 	
 	// Opens the bank for business.
-	this.start = function()
+	Bank.prototype.start = function()
 	{
 		// Keep running
 		while(true) 
@@ -508,7 +511,6 @@ function Bank(name, initCustomerList)
 			clearScreen();
 		}
 	}
-}
 
 // ---- Sample Test Code --------
 
