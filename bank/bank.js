@@ -4,7 +4,7 @@ const readline = require('readline-sync');
 // -----------------------------------------------
 // Clear the screen
 // -----------------------------------------------
-function clearScreeen()
+function clearScreen()
 {
 	// Clear the screen
 	console.log('\033[2J');
@@ -30,32 +30,32 @@ function Account(acctName, acctBalance, type)
 
 	// The account type
 	this.type = type;
-	
+}
+
 	// Returns the account name
-	this.getAcctName = function() { return this.acctName; }
+	Account.prototype.getAcctName = function() { return this.acctName; }
 	
 	// Returns the account balance
-	this.getBalance = function() { return this.acctBalance; }
+	Account.prototype.getBalance = function() { return this.acctBalance; }
 	
 	// Returns the account type
-	this.getAccountType = function() { return this.type; }
+	Account.prototype.getAccountType = function() { return this.type; }
 	
-	// Deposits money to the account
+	// Deposits money to the accountS
 	// @param amount - the amount to deposit
-	this.deposit = function(amount) { this.acctBalance  = this.acctBalance +  amount; }
+	Account.prototype.deposit = function(amount) { this.acctBalance  = this.acctBalance +  amount; }
 	
 	// Withdraws money from the account
 	// @param amount - the amount to withdraw
-	this.withdraw = function(amount){ this.acctBalance = this.acctBalance - amount; }
+	Account.prototype.withdraw = function(amount){ this.acctBalance = this.acctBalance - amount; }
 	
 	// Prints the account information
-	this.printAcct = function()
+	Account.prototype.printAcct = function()
 	{
 		console.log("Account name: ", this.getAcctName());
 		console.log("Account type: ", this.getAccountType());
 		console.log("Account balance: ", this.getBalance(), "\n");
 	}
-}
 
 // ------------------------------------------------
 // The constructor for the customer class
@@ -68,27 +68,27 @@ function Customer(userName, userPassword)
 	this.userName = userName;
 	this.userPassword = userPassword;
 	
+	// The list of accounts	
+	this.accounts = []	
+}
+
 	// Returns the username
-	this.getUserName = function() { return this.userName; }
+	Customer.prototype.getUserName = function() { return this.userName; }
 	
 	// Returns the password
-	this.getPassword = function() { return this.userPassword; }
+	Customer.prototype.getPassword = function() { return this.userPassword; }
 	
 	// Returns the accounts
-	this.getAccounts = function() { return this.accounts; }
+	Customer.prototype.getAccounts = function() { return this.accounts; }
 	
 	// Add account
 	// @param account - the account
-	this.addAccount = function(account) { this.accounts.push(account); }
+	Customer.prototype.addAccount = function(account) { this.accounts.push(account); }
 	
 	// Returns the account based on the account index
 	// @param acctIndex - the account index
 	// @return - the account based on the index	
-	this.getAccount = function(acctIndex) { return this.accounts[acctIndex]; }
-		
-	// The list of accounts	
-	this.accounts = []	
-}
+	Customer.prototype.getAccount = function(acctIndex) { return this.accounts[acctIndex]; }
 
 // ----------------------------------------------
 // The constructor of the Bank class
@@ -506,7 +506,7 @@ function Bank(name, initCustomerList)
 			this.masterChoice();
 			
 			// Clear screen
-			clearScreeen();
+			clearScreen();
 		}
 	}
 }
