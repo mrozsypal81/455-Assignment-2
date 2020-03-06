@@ -225,7 +225,8 @@ function Bank(name, initCustomerList)
 		}
 		while(choice != 7);
 
-		//have to implement something for after logout is done
+		//after the loop ends this function will end and return 
+		//to the last function which was masterchoice
 	}
 	
 	
@@ -294,6 +295,9 @@ function Bank(name, initCustomerList)
 		let userName;
 		do
 		{
+
+			//currently there is no way for the user to get out of this loop 
+			// without logging in or just exiting the program
 			console.log("Please enter your user name and password");
 		
 			// Get the user name
@@ -327,13 +331,14 @@ function Bank(name, initCustomerList)
 		let match = false;
 		
 		// Is this a registered user?
+		// 
 		if(userName in this.customers)
 		{
 			// Get the customer
 			let customer = this.customers[userName];
 			
 			// Check the password
-			if(customer.getPassword() == userPassword) { match = true; }
+			if(customer.getPassword() === userPassword) { match = true; }
 		}
 		
 		return match;
@@ -369,22 +374,27 @@ function Bank(name, initCustomerList)
 	{
 		// The account name
 		let accountName = readline.question("Please choose an account name: ");	
-		
+		let accountType;
+		let initialDeposit;
+		do{
 		// Get the account type
-		let accountType = readline.question("Please choose (1) for savings and (2) for checking: ");
+		accountType = readline.question("Please choose (1) for savings and (2) for checking: ");
 		
+		}while( accountType != 1 || accountType != 2)
 		// The account type
-		let choosenType = null;
+		let chosenType = null;
 		
-		// The account type: sacings or checking
-		if(accountType == 1) { choosenType = "savings"; }
-		else { choosenType = "checking"; }
-		
+		// The account type: savings or checking
+		if(accountType == 1) 
+			{ chosenType = "savings"; }
+		else 
+			{ chosenType = "checking"; }
+		do{
 		// The initial deposit	
-		let initialDeposit = readline.question("Please enter the deposit amount: ");
-		
+		initialDeposit = readline.question("Please enter the deposit amount: ");
+		}while(!(initialDeposit % 1))
 		// The account name
-		this.createAccount(customer, accountName, parseFloat(initialDeposit), accountType);
+		this.createAccount(customer, accountName, parseFloat(initialDeposit), chosenType);
 	}
 
 	// ------------------------------------------------------
