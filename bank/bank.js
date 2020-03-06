@@ -408,16 +408,19 @@ function Bank(name, initCustomerList)
 		
 		// Show all accounts of the user
 		this.viewAccounts(user);
-		
+		let accountIndex;
+		do{
 		// Get the account choice
-		let accountIndex = readline.question("Please select an account by entering a choice (e.g., enter 1 for the first account) ");
+		accountIndex = readline.question("Please select an account by entering a choice (e.g., enter 1 for the first account) ");
 		
+		}while(!(accountIndex <= user.accounts.length && accountIndex != 0) )
 		// Get the account based on index
 		let account = user.getAccount(accountIndex - 1);	
-		
+		let depositAmount;
+		do{
 		// Get the deposit amount
-		let depositAmount = readline.question("Please enter the deposit amount: ");
-		
+		depositAmount = readline.question("Please enter the deposit amount: ");
+		}while(!(!isNaN(depositAmount) && Number(depositAmount) > 0))
 		// Deposit the money	
 		account.deposit(depositAmount);			
 		
