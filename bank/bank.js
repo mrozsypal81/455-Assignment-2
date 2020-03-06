@@ -468,22 +468,27 @@ function Bank(name, initCustomerList)
 		
 		// Show the account information
 		this.viewAccounts(customer);
-			
+		let accountIndex;
+
+		do{	
 		// Get the source account
-		let accountIndex = readline.question("Please select the source account by entering a choice (e.g., enter 1 for the first account) ");
-		
-		// Get the destination account based on index
+		accountIndex = readline.question("Please select the source account by entering a choice (e.g., enter 1 for the first account) ");
+		}while(!(accountIndex <= customer.accounts.length && accountIndex != 0) )
+		// Get the source account based on index
 		let srcAccount = customer.getAccount(accountIndex - 1);
-		
+
+		do{
 		// Get the destination account
 		accountIndex = readline.question("Please select the destination by entering a choice (e.g., enter 1 for the first account) ");
-		
+		}while(!(accountIndex <= customer.accounts.length && accountIndex != 0) )
 		// Get the destination account based on index
-		let dstAccount = customer.getAccount(accountIndex - 1);		
-		
+		let dstAccount = customer.getAccount(accountIndex - 1);	
+
+		let transferAmount;
+		do{
 		// Get the transfer amount
-		let transferAmount = readline.question("Please enter the transfer amount: ");
-		
+		transferAmount = readline.question("Please enter the transfer amount: ");
+		}while(!(!isNaN(transferAmount) && Number(transferAmount) > 0))
 		// Withdraw the money from the source account
 		srcAccount.withdraw(transferAmount);
 		
