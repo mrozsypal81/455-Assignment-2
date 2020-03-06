@@ -436,16 +436,19 @@ function Bank(name, initCustomerList)
 	{	
 		// Show all accounts of the user
 		this.viewAccounts(customer);
-		
+		let accountIndex;
+		do{
 		// Get the account choice
-		let accountIndex = readline.question("Please select an account by entering a choice (e.g., enter 1 for the first account) ");
-		
+		accountIndex = readline.question("Please select an account by entering a choice (e.g., enter 1 for the first account) ");
+		}while(!(accountIndex <= customer.accounts.length && accountIndex != 0) )
 		// Get the account based on index
 		let account = customer.getAccount(accountIndex - 1);	
 		
+		let withdrawAmount;
+		do{
 		// Get the withdraw amount
-		let withdrawAmount = readline.question("Please enter the withraw amount: ");
-		
+		withdrawAmount = readline.question("Please enter the withraw amount: ");
+		}while(!(!isNaN(withdrawAmount) && Number(withdrawAmount) > 0))
 		// Deposit the money	
 		account.withdraw(withdrawAmount);			
 		
