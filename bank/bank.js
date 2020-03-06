@@ -392,7 +392,7 @@ function Bank(name, initCustomerList)
 		do{
 		// The initial deposit	
 		initialDeposit = readline.question("Please enter the deposit amount: ");
-		}while(!(Number.isInteger(+initialDeposit)))
+		}while(!(!isNaN(initialDeposit) && Number(initialDeposit) > 0))
 		// The account name
 		this.createAccount(customer, accountName, parseFloat(initialDeposit), chosenType);
 	}
