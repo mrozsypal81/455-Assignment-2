@@ -43,11 +43,11 @@ function Account(acctName, acctBalance, type)
 	
 	// Deposits money to the accountS
 	// @param amount - the amount to deposit
-	Account.prototype.deposit = function(amount) { this.acctBalance  = this.acctBalance +  amount; }
+	Account.prototype.deposit = function(amount) { this.acctBalance  = parseFloat(this.acctBalance) +  parseFloat(amount); }
 	
 	// Withdraws money from the account
 	// @param amount - the amount to withdraw
-	Account.prototype.withdraw = function(amount){ this.acctBalance = this.acctBalance - amount; }
+	Account.prototype.withdraw = function(amount){ this.acctBalance = parseFloat(this.acctBalance) - parseFloat(amount); }
 	
 	// Prints the account information
 	Account.prototype.printAcct = function()
