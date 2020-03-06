@@ -145,6 +145,8 @@ function Bank(name, initCustomerList)
 	// ----------------------------------------------
 	Bank.prototype.createCustomerUI = function()
 	{
+		// Could possibly add a check here to scrub user input for 
+		// malicious intent but may be out of scope of assignment
 		// Create user name
 		let userName = readline.question("Please pick a user name: ");
 		
@@ -222,6 +224,8 @@ function Bank(name, initCustomerList)
 			}
 		}
 		while(choice != 7);
+
+		//have to implement something for after logout is done
 	}
 	
 	
@@ -237,16 +241,20 @@ function Bank(name, initCustomerList)
 		
 		// The account counter
 		let accountNum = 1;
+		
+		if(accounts.length > 0){
+			// Print the accounts
+			for(account of accounts)
+			{
+				console.log("Account ", accountNum);
+				account.printAcct();
 			
-		// Print the accounts
-		for(account of accounts)
-		{
-			console.log("Account ", accountNum);
-			account.printAcct();
-			
-			// Next account
-			accountNum += 1;
+				// Next account
+				accountNum += 1;
+			}
 		}
+		else
+			console.log("There are no accounts please make one")
 	} 
 		
 	// ------------------------------------------------------------
@@ -282,18 +290,20 @@ function Bank(name, initCustomerList)
 	// -------------------------------------------------------------
 	Bank.prototype.loginUI = function()
 	{
+		let match;
+		let userName;
 		do
 		{
 			console.log("Please enter your user name and password");
 		
 			// Get the user name
-			let userName = readline.question("Username: ");
+			userName = readline.question("Username: ");
 	
 			// Get the password	
 			let userPassword = readline.question("Password: ");
 				
 			// Whether there was a match
-			let match = this.login(userName, userPassword);
+			match = this.login(userName, userPassword);
 		
 		} while(!match);
 		
