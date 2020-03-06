@@ -256,6 +256,7 @@ function Bank(name, initCustomerList)
 		}
 		else
 			console.log("There are no accounts please make one")
+			return;
 	} 
 		
 	// ------------------------------------------------------------
@@ -547,6 +548,22 @@ function Bank(name, initCustomerList)
 		}
 	}
 
+	Bank.prototype.closeAccount = function(customer){
+		let delaccount;
+		this.viewAccounts(customer);
+
+		if(customer.accounts.length === 0){
+			return;
+		}
+
+		do{
+			delaccount = readline.question("Please enter the Account number you wish to delete: ");
+		}while(!(delaccount <= customer.accounts.length && delaccount != 0) )
+
+		console.log("Withdrawing all funds")
+		customer.accounts.splice(delaccount-1,1);
+		
+	}
 // ---- Sample Test Code --------
 
 // Create three customers
