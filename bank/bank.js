@@ -380,7 +380,7 @@ function Bank(name, initCustomerList)
 		// Get the account type
 		accountType = readline.question("Please choose (1) for savings and (2) for checking: ");
 		
-		}while( accountType != 1 || accountType != 2)
+		}while( accountType != 1 && accountType != 2)
 		// The account type
 		let chosenType = null;
 		
@@ -392,7 +392,7 @@ function Bank(name, initCustomerList)
 		do{
 		// The initial deposit	
 		initialDeposit = readline.question("Please enter the deposit amount: ");
-		}while(!(initialDeposit % 1))
+		}while(!(Number.isInteger(+initialDeposit)))
 		// The account name
 		this.createAccount(customer, accountName, parseFloat(initialDeposit), chosenType);
 	}
