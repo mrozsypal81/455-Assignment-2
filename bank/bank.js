@@ -134,7 +134,7 @@ function Bank(name, initCustomerList)
 	Bank.prototype.createAndAddCustomer = function(userName, userPassword)
 	{
 		// Create a new customer
-		var customer = new Customer(userName, userPassword);	
+		let customer = new Customer(userName, userPassword);	
 		
 		// Save the customer
 		this.customers[customer.getUserName()] = customer;
@@ -146,10 +146,10 @@ function Bank(name, initCustomerList)
 	Bank.prototype.createCustomerUI = function()
 	{
 		// Create user name
-		var userName = readline.question("Please pick a user name: ");
+		let userName = readline.question("Please pick a user name: ");
 		
 		// Pick the password 
-		var userPassword = readline.question("Please pick a user password: ");	
+		let userPassword = readline.question("Please pick a user password: ");	
 		
 		// Create and add user
 		this.createAndAddCustomer(userName, userPassword);
@@ -163,6 +163,7 @@ function Bank(name, initCustomerList)
 	// -----------------------------------------------
 	Bank.prototype.userActionMenuUI = function(customer)
 	{
+		let choice;
 		do
 		{
 			// Get the user input and create a customer object
@@ -177,7 +178,7 @@ function Bank(name, initCustomerList)
 			console.log("-----------------------------------------------\n\n");
 
 			// Accept input
-			var choice = readline.question("Choice: ");
+			choice = readline.question("Choice: ");
 			
 			// Decide what to do
 			
@@ -232,10 +233,10 @@ function Bank(name, initCustomerList)
 	Bank.prototype.viewAccounts = function(customer) 
 	{
 		// Get the accounts
-		var accounts = customer.getAccounts();
+		let accounts = customer.getAccounts();
 		
 		// The account counter
-		var accountNum = 1;
+		let accountNum = 1;
 			
 		// Print the accounts
 		for(account of accounts)
@@ -253,6 +254,8 @@ function Bank(name, initCustomerList)
 	// ------------------------------------------------------------
 	Bank.prototype.masterChoice = function()
 	{
+
+		let choice;
 		do
 		{
 			console.log("What would you like to do?");
@@ -260,7 +263,7 @@ function Bank(name, initCustomerList)
 			console.log("2. Create Account\n");
 			
 			// Get the choice
-			var choice = readline.question("Choice: ");	
+			 choice = readline.question("Choice: ");	
 			
 
 			// Login
@@ -284,19 +287,19 @@ function Bank(name, initCustomerList)
 			console.log("Please enter your user name and password");
 		
 			// Get the user name
-			var userName = readline.question("Username: ");
+			let userName = readline.question("Username: ");
 	
 			// Get the password	
-			var userPassword = readline.question("Password: ");
+			let userPassword = readline.question("Password: ");
 				
 			// Whether there was a match
-			var match = this.login(userName, userPassword);
+			let match = this.login(userName, userPassword);
 		
 		} while(!match);
 		
 		
 		// Get the customer
-		var customer = this.getCustomer(userName);
+		let customer = this.getCustomer(userName);
 		
 		// Show the user menu
 		this.userActionMenuUI(customer);
@@ -311,13 +314,13 @@ function Bank(name, initCustomerList)
 	Bank.prototype.login = function(userName, userPassword)
 	{		
 		// The match
-		var match = false;
+		let match = false;
 		
 		// Is this a registered user?
 		if(userName in this.customers)
 		{
 			// Get the customer
-			var customer = this.customers[userName];
+			let customer = this.customers[userName];
 			
 			// Check the password
 			if(customer.getPassword() == userPassword) { match = true; }
@@ -340,7 +343,7 @@ function Bank(name, initCustomerList)
 	Bank.prototype.createAccount = function(customer, acctName, initialDeposits, type)
 	{
 		// Create a new account
-		var account = new Account(acctName, initialDeposits, type);
+		let account = new Account(acctName, initialDeposits, type);
 		
 		// Add account to the user
 		customer.addAccount(account);
@@ -355,20 +358,20 @@ function Bank(name, initCustomerList)
 	Bank.prototype.openAccountUI = function(customer)
 	{
 		// The account name
-		var accountName = readline.question("Please choose an account name: ");	
+		let accountName = readline.question("Please choose an account name: ");	
 		
 		// Get the account type
-		var accountType = readline.question("Please choose (1) for savings and (2) for checking: ");
+		let accountType = readline.question("Please choose (1) for savings and (2) for checking: ");
 		
 		// The account type
-		var choosenType = null;
+		let choosenType = null;
 		
 		// The account type: sacings or checking
 		if(accountType == 1) { choosenType = "savings"; }
 		else { choosenType = "checking"; }
 		
 		// The initial deposit	
-		var initialDeposit = readline.question("Please enter the deposit amount: ");
+		let initialDeposit = readline.question("Please enter the deposit amount: ");
 		
 		// The account name
 		this.createAccount(customer, accountName, parseFloat(initialDeposit), accountType);
@@ -387,13 +390,13 @@ function Bank(name, initCustomerList)
 		this.viewAccounts(user);
 		
 		// Get the account choice
-		var accountIndex = readline.question("Please select an account by entering a choice (e.g., enter 1 for the first account) ");
+		let accountIndex = readline.question("Please select an account by entering a choice (e.g., enter 1 for the first account) ");
 		
 		// Get the account based on index
-		var account = user.getAccount(accountIndex - 1);	
+		let account = user.getAccount(accountIndex - 1);	
 		
 		// Get the deposit amount
-		var depositAmount = readline.question("Please enter the deposit amount: ");
+		let depositAmount = readline.question("Please enter the deposit amount: ");
 		
 		// Deposit the money	
 		account.deposit(depositAmount);			
@@ -412,13 +415,13 @@ function Bank(name, initCustomerList)
 		this.viewAccounts(customer);
 		
 		// Get the account choice
-		var accountIndex = readline.question("Please select an account by entering a choice (e.g., enter 1 for the first account) ");
+		let accountIndex = readline.question("Please select an account by entering a choice (e.g., enter 1 for the first account) ");
 		
 		// Get the account based on index
-		var account = customer.getAccount(accountIndex - 1);	
+		let account = customer.getAccount(accountIndex - 1);	
 		
 		// Get the withdraw amount
-		var withdrawAmount = readline.question("Please enter the withraw amount: ");
+		let withdrawAmount = readline.question("Please enter the withraw amount: ");
 		
 		// Deposit the money	
 		account.withdraw(withdrawAmount);			
@@ -441,19 +444,19 @@ function Bank(name, initCustomerList)
 		this.viewAccounts(customer);
 			
 		// Get the source account
-		var accountIndex = readline.question("Please select the source account by entering a choice (e.g., enter 1 for the first account) ");
+		let accountIndex = readline.question("Please select the source account by entering a choice (e.g., enter 1 for the first account) ");
 		
 		// Get the destination account based on index
-		var srcAccount = customer.getAccount(accountIndex - 1);
+		let srcAccount = customer.getAccount(accountIndex - 1);
 		
 		// Get the destination account
 		accountIndex = readline.question("Please select the destination by entering a choice (e.g., enter 1 for the first account) ");
 		
 		// Get the destination account based on index
-		var dstAccount = customer.getAccount(accountIndex - 1);		
+		let dstAccount = customer.getAccount(accountIndex - 1);		
 		
 		// Get the transfer amount
-		var transferAmount = readline.question("Please enter the transfer amount: ");
+		let transferAmount = readline.question("Please enter the transfer amount: ");
 		
 		// Withdraw the money from the source account
 		srcAccount.withdraw(transferAmount);
@@ -475,12 +478,12 @@ function Bank(name, initCustomerList)
 	Bank.prototype.showAccounts = function(user)
 	{
 		// Get the accounts
-		var accounts = user.getAccounts();
+		let accounts = user.getAccounts();
 		
 		console.log(accounts);
 			
 		// The account number
-		var acctNum = 0;
+		let acctNum = 0;
 		
 		// Print all the accounts
 		for(account of accounts)
@@ -515,9 +518,9 @@ function Bank(name, initCustomerList)
 // ---- Sample Test Code --------
 
 // Create three customers
-var c1 = new Customer("mike", "123");
-var c2 = new Customer("pike", "234");
-var c3 = new Customer("bike", "678");
+let c1 = new Customer("mike", "123");
+let c2 = new Customer("pike", "234");
+let c3 = new Customer("bike", "678");
 
 // Add accounts to each customer
 c1.addAccount(new Account("bills", 100, "savings"));
@@ -530,10 +533,10 @@ c3.addAccount(new Account("chills", 300, "savings"));
 c3.addAccount(new Account("thrills", 400, "checking"));
 
 // Create a list of customers
-var customers = [c1, c2, c3];
+let customers = [c1, c2, c3];
 
 // Create a bank object
-var myBank = new Bank("Kitty Bank", customers);
+let myBank = new Bank("Kitty Bank", customers);
 
 
 myBank.start();
