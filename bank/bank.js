@@ -505,6 +505,7 @@ function Bank(name, initCustomerList)
 	// ---------------------------------------------
 	// Shows all the user accounts
 	// @param user - the user whose accounts to view
+	// This doesnt seem to be used anywhere maybe for debugging purposes
 	// ----------------------------------------------
 	Bank.prototype.showAccounts = function(user)
 	{
