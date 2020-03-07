@@ -549,7 +549,7 @@ function Bank(name, initCustomerList)
 		// Print all the accounts
 		for(account of accounts)
 		{
-			console.log(acctNum, account.getName(), " ", account.getBalance())
+			console.log(acctNum, account.getName(), " ", parseFloat(account.getBalance()))
 		}
 	}
 	
