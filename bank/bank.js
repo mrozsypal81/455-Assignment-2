@@ -36,7 +36,7 @@ function Account(acctName, acctBalance, type)
 	Account.prototype.getAcctName = function() { return this.acctName; }
 	
 	// Returns the account balance
-	Account.prototype.getBalance = function() { return this.acctBalance; }
+	Account.prototype.getBalance = function() { return parseFloat(this.acctBalance); }
 	
 	// Returns the account type
 	Account.prototype.getAccountType = function() { return this.type; }
@@ -54,7 +54,7 @@ function Account(acctName, acctBalance, type)
 	{
 		console.log("Account name: ", this.getAcctName());
 		console.log("Account type: ", this.getAccountType());
-		console.log("Account balance: ", this.getBalance(), "\n");
+		console.log("Account balance: ", parseFloat(this.getBalance()), "\n");
 	}
 
 // ------------------------------------------------
