@@ -441,7 +441,7 @@ function Bank(name, initCustomerList)
 		depositAmount = readline.question("Please enter the deposit amount: ");
 		}while(!(!isNaN(depositAmount) && Number(depositAmount) > 0))
 		// Deposit the money	
-		account.deposit(depositAmount);			
+		account.deposit(parseFloat(depositAmount));			
 		
 		
 		console.log("Updated account information: ");
@@ -474,7 +474,7 @@ function Bank(name, initCustomerList)
 		withdrawAmount = readline.question("Please enter the withdraw amount: ");
 		}while(!(!isNaN(withdrawAmount) && Number(withdrawAmount) > 0 && withdrawAmount <= account.getBalance()))
 		// withdraw the money	
-		account.withdraw(withdrawAmount);			
+		account.withdraw(parseFloat(withdrawAmount));			
 		
 		// Show the updated account information	
 		console.log("Updated account information: ");
@@ -519,10 +519,10 @@ function Bank(name, initCustomerList)
 		transferAmount = readline.question("Please enter the transfer amount: ");
 		}while(!(!isNaN(transferAmount) && Number(transferAmount) > 0 && transferAmount <= srcAccount.getBalance()))
 		// Withdraw the money from the source account
-		srcAccount.withdraw(transferAmount);
+		srcAccount.withdraw(parseFloat(transferAmount));
 		
 		// Deposit the money	
-		dstAccount.deposit(transferAmount);			
+		dstAccount.deposit(parseFloat(transferAmount));			
 		
 		console.log("Updated account information: ");
 		srcAccount.printAcct();
