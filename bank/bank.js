@@ -409,6 +409,11 @@ function Bank(name, initCustomerList)
 		
 		// Show all accounts of the user
 		this.viewAccounts(user);
+
+		if(user.accounts.length === 0){
+			return;
+		}
+		
 		let accountIndex;
 		do{
 		// Get the account choice
@@ -437,6 +442,11 @@ function Bank(name, initCustomerList)
 	{	
 		// Show all accounts of the user
 		this.viewAccounts(customer);
+
+		if(customer.accounts.length === 0){
+			return;
+		}
+
 		let accountIndex;
 		do{
 		// Get the account choice
@@ -469,6 +479,11 @@ function Bank(name, initCustomerList)
 		
 		// Show the account information
 		this.viewAccounts(customer);
+
+		if(customer.accounts.length === 0){
+			return;
+		}
+		
 		let accountIndex;
 
 		do{	
