@@ -20,16 +20,16 @@ function clearScreen()
 function Account(acctName, acctBalance, type)
 {
 	// The account name
-	this.acctName = acctName;
+	this.acctName = JSON.parse(JSON.stringify(acctName));
 	
 	// The account amount
-	this.acctBalance = acctBalance;
+	this.acctBalance = JSON.parse(JSON.stringify(acctBalance));
 		
 	// The 1 percent interest rate - because our bank is the best!	
 	this.interestRate = 1;
 
 	// The account type
-	this.type = type;
+	this.type = JSON.parse(JSON.stringify(type));
 }
 
 	// Returns the account name
@@ -65,8 +65,8 @@ function Account(acctName, acctBalance, type)
 function Customer(userName, userPassword)
 {
 	// Save the user name and password
-	this.userName = userName;
-	this.userPassword = userPassword;
+	this.userName = JSON.parse(JSON.stringify(userName));
+	this.userPassword = JSON.parse(JSON.stringify(userPassword));
 	
 	// The list of accounts	
 	this.accounts = []	
@@ -98,7 +98,7 @@ function Customer(userName, userPassword)
 function Bank(name, initCustomerList)
 {
 	// Save the bank name
-	this.name = name;
+	this.name = JSON.parse(JSON.stringify(name));
 
 	// The object that acts like a map representing the bank customers.
 	// The key is the customer user name. The value is the Customer object
@@ -144,10 +144,23 @@ function Bank(name, initCustomerList)
 	// Allows the user to enroll in the bank (the UI)
 	// ----------------------------------------------
 	Bank.prototype.createCustomerUI = function()
-	{
+	{	
+		let userName;
+		let usernameexisting;
+		let x = true;
+		while(x){
 		// Create user name
-		let userName = readline.question("Please pick a user name: ");
-		
+		userName = readline.question("Please pick a user name: ");
+			for(usernameexisting of customers){
+				console.log(usernameexisting.getName)
+				if(usernameexisting.getName === userName){
+					console.log(usernameexisting.getName)
+				}
+				else{
+					x = false;
+				}
+			}
+		}
 		// Pick the password 
 		let userPassword = readline.question("Please pick a user password: ");	
 		
