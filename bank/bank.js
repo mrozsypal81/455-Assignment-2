@@ -148,17 +148,19 @@ function Bank(name, initCustomerList)
 		let userName;
 		let usernameexisting;
 		let x = true;
+		let foundcopy;
 		while(x){
 		// Create user name
 		userName = readline.question("Please pick a user name: ");
+			foundcopy = false;
 			for(usernameexisting of customers){
-				console.log(usernameexisting.getName)
-				if(usernameexisting.getName === userName){
-					console.log(usernameexisting.getName)
+				if(usernameexisting.getUserName() === userName){
+					console.log(usernameexisting.getUserName());
+					foundcopy = true;
 				}
-				else{
-					x = false;
-				}
+			}
+			if(foundcopy === false){
+				x = false;
 			}
 		}
 		// Pick the password 
