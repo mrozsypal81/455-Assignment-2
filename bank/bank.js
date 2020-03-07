@@ -419,7 +419,7 @@ function Bank(name, initCustomerList)
 		// Get the account choice
 		accountIndex = readline.question("Please select an account by entering a choice (e.g., enter 1 for the first account) ");
 		
-		}while(!(accountIndex <= user.accounts.length && accountIndex != 0) )
+		}while(!(accountIndex <= user.accounts.length && accountIndex != 0 && accountIndex >= 1) )
 		// Get the account based on index
 		let account = user.getAccount(accountIndex - 1);	
 		let depositAmount;
@@ -451,16 +451,16 @@ function Bank(name, initCustomerList)
 		do{
 		// Get the account choice
 		accountIndex = readline.question("Please select an account by entering a choice (e.g., enter 1 for the first account) ");
-		}while(!(accountIndex <= customer.accounts.length && accountIndex != 0) )
+		}while(!(accountIndex <= customer.accounts.length && accountIndex != 0 && accountIndex >= 1) )
 		// Get the account based on index
 		let account = customer.getAccount(accountIndex - 1);	
 		
 		let withdrawAmount;
 		do{
 		// Get the withdraw amount
-		withdrawAmount = readline.question("Please enter the withraw amount: ");
+		withdrawAmount = readline.question("Please enter the withdraw amount: ");
 		}while(!(!isNaN(withdrawAmount) && Number(withdrawAmount) > 0 && withdrawAmount <= account.getBalance()))
-		// Deposit the money	
+		// withdraw the money	
 		account.withdraw(withdrawAmount);			
 		
 		// Show the updated account information	
@@ -489,14 +489,14 @@ function Bank(name, initCustomerList)
 		do{	
 		// Get the source account
 		accountIndex = readline.question("Please select the source account by entering a choice (e.g., enter 1 for the first account) ");
-		}while(!(accountIndex <= customer.accounts.length && accountIndex != 0) )
+		}while(!(accountIndex <= customer.accounts.length && accountIndex != 0 && accountIndex >= 1) )
 		// Get the source account based on index
 		let srcAccount = customer.getAccount(accountIndex - 1);
 
 		do{
 		// Get the destination account
 		accountIndex = readline.question("Please select the destination by entering a choice (e.g., enter 1 for the first account) ");
-		}while(!(accountIndex <= customer.accounts.length && accountIndex != 0) )
+		}while(!(accountIndex <= customer.accounts.length && accountIndex != 0 && accountIndex >= 1) )
 		// Get the destination account based on index
 		let dstAccount = customer.getAccount(accountIndex - 1);	
 
