@@ -459,7 +459,7 @@ function Bank(name, initCustomerList)
 		do{
 		// Get the withdraw amount
 		withdrawAmount = readline.question("Please enter the withraw amount: ");
-		}while(!(!isNaN(withdrawAmount) && Number(withdrawAmount) > 0))
+		}while(!(!isNaN(withdrawAmount) && Number(withdrawAmount) > 0 && withdrawAmount <= account.getBalance()))
 		// Deposit the money	
 		account.withdraw(withdrawAmount);			
 		
