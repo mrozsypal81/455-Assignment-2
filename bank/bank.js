@@ -145,8 +145,6 @@ function Bank(name, initCustomerList)
 	// ----------------------------------------------
 	Bank.prototype.createCustomerUI = function()
 	{
-		// Could possibly add a check here to scrub user input for 
-		// malicious intent but may be out of scope of assignment
 		// Create user name
 		let userName = readline.question("Please pick a user name: ");
 		
@@ -573,7 +571,7 @@ function Bank(name, initCustomerList)
 
 		do{
 			delaccount = readline.question("Please enter the Account number you wish to delete: ");
-		}while(!(delaccount <= customer.accounts.length && delaccount != 0) )
+		}while(!(delaccount <= customer.accounts.length && delaccount != 0 && delaccount >= 1) )
 
 		console.log("Withdrawing all funds from the account")
 		customer.accounts.splice(delaccount-1,1);
