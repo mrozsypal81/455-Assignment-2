@@ -489,7 +489,7 @@ function Bank(name, initCustomerList)
 		do{
 		// Get the transfer amount
 		transferAmount = readline.question("Please enter the transfer amount: ");
-		}while(!(!isNaN(transferAmount) && Number(transferAmount) > 0))
+		}while(!(!isNaN(transferAmount) && Number(transferAmount) > 0 && transferAmount <= srcAccount.getBalance()))
 		// Withdraw the money from the source account
 		srcAccount.withdraw(transferAmount);
 		
@@ -560,7 +560,7 @@ function Bank(name, initCustomerList)
 			delaccount = readline.question("Please enter the Account number you wish to delete: ");
 		}while(!(delaccount <= customer.accounts.length && delaccount != 0) )
 
-		console.log("Withdrawing all funds")
+		console.log("Withdrawing all funds from the account")
 		customer.accounts.splice(delaccount-1,1);
 		
 	}
