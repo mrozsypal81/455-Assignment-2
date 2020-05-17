@@ -15,6 +15,17 @@
                 font-size: 24px;
                 padding: 20px 0 20px 0;
             }
+            .login-form h4 {
+                text-align: center;
+                color: #535b63;
+                font-size: 15px;
+                
+            }
+            .login-form ul {
+                color: #4d4d4d;
+                font-size: 12px;
+                
+            }
             .login-form input[type="password"],
             .login-form input[type="text"] {
                 width: 100%;
@@ -41,6 +52,18 @@
                 <form action="auth" method="POST">
                     <input type="text" name="username" placeholder="Username" required>
                     <input type="password" name="password" placeholder="Password" required>
+                    <h4>Password Requirements:</h4>
+                    <ul>
+                        <li>MUST contain at least 8 characters </li>
+                        <li>MUST contain at least one uppercase letter</li>
+                        <li>MUST contain at least one lowercase letter</li>
+                        <li>MUST contain at least one number</li>
+                        <li>MUST contain at least one special character (!”#$%&'()*+,-./:;<=>?@[\]^_`{|}~ )</li>
+                        <li>MAY NOT contain more than two identical characters in a row</li>
+                        <li>MAY NOT match commonly used password character patterns</li>
+                    </ul>
+                    <input type="password" name="passwordConfirm" placeholder="Confirm Password" required>
+
                     <input type="text" name="firstname" placeholder="First name" required>
                     <input type="text" name="lastname" placeholder="Last name" required>
                     <input type="text" name="address" placeholder="Address" required>
