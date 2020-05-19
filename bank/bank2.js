@@ -53,6 +53,12 @@ function userAccount(username, accNum, accType, accBal){
 //authorizedUsers array
 let authorizedUsers = [];
 
+//Accounts Array
+let totalaccounts = [];
+
+//The current users accounts
+let currentusersaccounts = [];
+
 // The default page
 app.get('/', function(req, res)
 {
@@ -149,6 +155,87 @@ app.post('/login', function(req, res)
 //User dashboard - once the user is logged in
 app.get('/dashboard', function(req, res)
 {
+
+  if(req.session.username){
+    let currentUser = req.session.username;
+    
+    //This will add all the users accounts to an array for the system to use
+    for (let i = 0; i < totalaccounts.length();++i){
+      if(currentUser == totalaccounts[i].username){
+        currentusersaccounts.push(i);
+      }
+    }
+    
+    let pageHtml = '<html lang="en" dir="ltr">\n' +
+    '<head>\n' +
+    '<meta charset="utf-8">\n' +
+    '<title>Bank of CPSC455</title>\n' +
+    '</head>\n' +
+    '<body bgcolor="lightgray">\n' +
+    '<h1>Hello, ' + currentUser + '!</h1>\n';
+    for(let x = 0; x < currentusersaccounts.length; ++x) {
+      pageHtml += '' +
+      '<fieldset>\n' +
+      '<legend>'+ currentusersaccounts[x].accType +' Account No.'+ currentusersaccounts[x].accNum +'</legend>\n' +
+      'Balance: $'+ currentusersaccounts[x].accBal +'<br>\n' +
+      '</fieldset><br>\n';
+    }
+    pageHtml += '' +
+    '<fieldset>\n' +
+    '<legend>Add Account</legend>\n' +
+    '<form action="/addaccount" method="post">' +
+    'Choose account type: <select class="selectpicker" name="selectpicker_accountType">\n' +
+    '<option value="CHECKING">Checking</option>\n' +
+    '<option value="SAVINGS">Savings</option>\n' +
+    '</select><br><br>\n' +
+    '<input type="submit" value="Submit">\n' +
+    '</form>\n' +
+    '</fieldset><br>\n' +
+    '<fieldset>\n' +
+    '<legend>Deposit</legend>\n' +
+    '<form action="/deposit" method="post">\n' +
+    'Amount: $<input type="text" name="amount" value="0"><br><br>\n' +
+    'To: <select class="selectpicker" name="selectpicker_deposit">\n';
+    for(let x = 0; x < currentusersaccounts.length; ++x) {
+      pageHtml += '' +
+      '<option value="'+ currentusersaccounts[x].accNum +'">Account No.'+ currentusersaccounts[x].accNum +'</option>\n';
+    }
+    pageHtml += '' +
+    '</select><br><br>\n' +
+    '<input type="submit" value="Submit">\n' +
+    '</form>\n' +
+    '</fieldset><br>\n' +
+    '<fieldset>\n' +
+    '<legend>Transfer</legend>\n' +
+    '<form action = "/transfer" method = "post">\n' +
+    'Amount: $<input type="text" name="amount" value="0"><br><br>\n' +
+    'From: <select class="selectpicker" name="selectpicker_from">\n';
+    for(let x = 0; x < currentusersaccounts.length; ++x) {
+      pageHtml += '' +
+      '<option value="'+ currentusersaccounts[x].accNum +'">Account No.'+ currentusersaccounts[x].accNum +'</option>\n';
+    }
+    pageHtml += '' +
+    '</select><br><br>\n' +
+    'To: <select class="selectpicker" name="selectpicker_to">\n';
+    for(let x = 0; x < currentusersaccounts.length; ++x) {
+      pageHtml += '' +
+      '<option value="'+ currentusersaccounts[x].accNum +'">Account No.'+ currentusersaccounts[x].accNum +'</option>\n';
+    }
+    pageHtml += '' +
+    '</select><br><br>\n' +
+    '<input type="submit" value="Submit">\n' +
+    '</form>\n' +
+    '</fieldset><br>\n' +
+    '<a href="/logout"> Logout</a>\n' +
+    '<br>\n' +
+    '</body>\n' +
+    '</html>';
+
+    res.send(pageHtml);
+
+
+  }
+
 
 });
 
