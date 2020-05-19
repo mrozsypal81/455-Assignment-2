@@ -45,19 +45,21 @@ function User(username, password, firstName, lastName, address){
 //user account
 function userAccount(username, accNum, accType, accBal){
   this.username = username;
-  this.accNum = accountNumber;
-  this.accType = accountType;
-  this.accBal = accountBalance;
+  this.accNum = accNum;
+  this.accType = accType;
+  this.accBal = accBal;
 }
 
 //authorizedUsers array
+console.log("Making authorizedUsers list to 0")
 let authorizedUsers = [];
 
 //Accounts Array
+console.log("Making totalaccounts list to 0")
 let totalaccounts = [];
 
-//The current users accounts
-let currentusersaccounts = [];
+//The current users number of accounts
+let currentUserNum = 0;
 
 // The default page
 app.get('/', function(req, res)
@@ -155,16 +157,20 @@ app.post('/login', function(req, res)
 //User dashboard - once the user is logged in
 app.get('/dashboard', function(req, res)
 {
+  let currentusersaccounts = [];
 
   if(req.session.username){
     let currentUser = req.session.username;
-    
+
     //This will add all the users accounts to an array for the system to use
     for (let i = 0; i < totalaccounts.length;++i){
       if(currentUser == totalaccounts[i].username){
-        currentusersaccounts.push(i);
+        console.log(totalaccounts[i]);
+        currentusersaccounts.push(totalaccounts[i]);
       }
     }
+
+    currentUserNum = currentusersaccounts.length;
     
     let pageHtml = '<html lang="en" dir="ltr">\n' +
     '<head>\n' +
@@ -237,6 +243,25 @@ app.get('/dashboard', function(req, res)
   }
 
 
+});
+
+app.post('/addaccount', function(req, res){
+
+  let add_type = xssFilters.inHTMLData(req.body.selectpicker_accountType);
+  
+  if(req.session.username){
+    let currentUser = req.session.username;
+    console.log(currentUser)
+    let AccountNum = currentUserNum + 1;
+    console.log(AccountNum)
+
+    let newAccount = new userAccount(currentUser,AccountNum,add_type,0);
+
+    totalaccounts.push(newAccount);
+
+    res.redirect('/dashboard');
+    console.log('Add account: success!');
+  }
 });
 
 app.listen(3000);
