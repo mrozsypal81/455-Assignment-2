@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html>
+    <html dir="ltr">
         <head>
             <meta charset="utf-8">
             <title>Bank Account Registration</title>
@@ -19,12 +19,12 @@
                 text-align: center;
                 color: #535b63;
                 font-size: 15px;
-                
+
             }
             .login-form ul {
                 color: #4d4d4d;
                 font-size: 12px;
-                
+
             }
             .login-form input[type="password"],
             .login-form input[type="text"] {
@@ -49,18 +49,16 @@
         <body>
             <div class="login-form">
                 <h1>Register Account</h1>
-                <form action="auth" method="POST">
+                <form action="/register" method="POST">
                     <input type="text" name="username" placeholder="Username" required>
                     <input type="password" name="password" placeholder="Password" required>
                     <h4>Password Requirements:</h4>
                     <ul>
-                        <li>MUST contain at least 8 characters </li>
+                        <li>MUST contain at least 8 - 15 characters </li>
                         <li>MUST contain at least one uppercase letter</li>
                         <li>MUST contain at least one lowercase letter</li>
                         <li>MUST contain at least one number</li>
-                        <li>MUST contain at least one special character (!”#$%&'()*+,-./:;<=>?@[\]^_`{|}~ )</li>
-                        <li>MAY NOT contain more than two identical characters in a row</li>
-                        <li>MAY NOT match commonly used password character patterns</li>
+                        <li>MUST contain at least one special character</li>
                     </ul>
                     <input type="password" name="passwordConfirm" placeholder="Confirm Password" required>
 
