@@ -160,7 +160,7 @@ app.get('/dashboard', function(req, res)
     let currentUser = req.session.username;
     
     //This will add all the users accounts to an array for the system to use
-    for (let i = 0; i < totalaccounts.length();++i){
+    for (let i = 0; i < totalaccounts.length;++i){
       if(currentUser == totalaccounts[i].username){
         currentusersaccounts.push(i);
       }
