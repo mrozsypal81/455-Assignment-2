@@ -45,9 +45,9 @@ function User(username, password, firstName, lastName, address){
 //user account
 function userAccount(username, accNum, accType, accBal){
   this.username = username;
-  this.accNum = accountNumber;
-  this.accType = accountType;
-  this.accBal = accountBalance;
+  this.accNum = accNum;
+  this.accType = accType;
+  this.accBal = accBal;
 }
 
 //authorizedUsers array
@@ -56,10 +56,10 @@ let authorizedUsers = [];
 //Accounts Array
 let totalaccounts = [];
 
-//The current users accounts
-let currentusersaccounts = [];
+//The current users number of accounts
+let currentUserNum = 0;
 
-// list of current users accounts
+//The current users accounts
 let currentusersaccounts = [];
 
 // The default page
@@ -158,21 +158,22 @@ app.post('/login', function(req, res)
 //User dashboard - once the user is logged in
 app.get('/dashboard', function(req, res)
 {
-<<<<<<< HEAD
   currentusersaccounts = [];
-=======
->>>>>>> e33968559799608f56a9be3e61817ce6179dde69
 
   if(req.session.username){
+
     let currentUser = req.session.username;
     
     //This will add all the users accounts to an array for the system to use
     for (let i = 0; i < totalaccounts.length;++i){
       if(currentUser == totalaccounts[i].username){
-        currentusersaccounts.push(i);
+        console.log(totalaccounts[i]);
+        currentusersaccounts.push(totalaccounts[i]);
       }
     }
     
+    currentUserNum = currentusersaccounts.length;
+
     let pageHtml = '<html lang="en" dir="ltr">\n' +
     '<head>\n' +
     '<meta charset="utf-8">\n' +
@@ -287,4 +288,22 @@ app.post('/deposit', function(req, res)
 
 });
 
+app.post('/addaccount', function(req, res){
+
+  let add_type = xssFilters.inHTMLData(req.body.selectpicker_accountType);
+
+  if(req.session.username){
+    let currentUser = req.session.username;
+    console.log(currentUser)
+    let AccountNum = currentUserNum + 1;
+    console.log(AccountNum)
+
+    let newAccount = new userAccount(currentUser,AccountNum,add_type,0);
+
+    totalaccounts.push(newAccount);
+
+    res.redirect('/dashboard');
+    console.log('Add account: success!');
+  }
+});
 app.listen(3000);
