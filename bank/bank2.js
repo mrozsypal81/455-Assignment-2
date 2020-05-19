@@ -61,6 +61,9 @@ let totalaccounts = [];
 //The current users number of accounts
 let currentUserNum = 0;
 
+// list of current users accounts
+let currentusersaccounts = [];
+
 // The default page
 app.get('/', function(req, res)
 {
@@ -157,7 +160,7 @@ app.post('/login', function(req, res)
 //User dashboard - once the user is logged in
 app.get('/dashboard', function(req, res)
 {
-  let currentusersaccounts = [];
+  currentusersaccounts = [];
 
   if(req.session.username){
     let currentUser = req.session.username;
@@ -262,6 +265,41 @@ app.post('/addaccount', function(req, res){
     res.redirect('/dashboard');
     console.log('Add account: success!');
   }
+});
+
+app.post('/deposit', function(req, res)
+{
+  let deposit_amount = xssFilters.inHTMLData(req.body.amount);
+  let deposit_accountNum = xssFilters.inHTMLData(req.body.selectpicker_deposit);
+  let numberOnly = /[0-9]/;
+  let validAmount = false;
+
+  if(parseInt(deposit_amount) > 0) {
+    validAmount = true;
+  }
+
+  if(numberOnly.test(deposit_amount) && validAmount){
+    
+    for (let i = 0; i < currentusersaccounts.length;++i){
+      if(deposit_accountNum == currentusersaccounts[i].accNum){
+        console.log("Accessing account number",deposit_accountNum);
+        for (let x = 0; x < currentusersaccounts.length;++x){
+          if(currentusersaccounts[i].username == totalaccounts[x].username){
+            totalaccounts[x].accBal = deposit_amount;
+            console.log('Deposit complete!');
+            res.redirect('/dashboard');
+          }
+        }
+      }
+    }
+    
+  }
+  else {
+    console.log("Input invalid. Deposit an amount greater than 0.");
+    res.redirect('/dashboard');
+  }
+  
+
 });
 
 app.listen(3000);
