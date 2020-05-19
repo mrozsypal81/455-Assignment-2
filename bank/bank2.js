@@ -269,8 +269,8 @@ app.post('/deposit', function(req, res)
     for (let i = 0; i < currentusersaccounts.length;++i){
       if(deposit_accountNum == currentusersaccounts[i].accNum){
         console.log("Accessing account number",deposit_accountNum);
-        for (let x = 0; x < currentusersaccounts.length;++x){
-          if(currentusersaccounts[i].username == totalaccounts[x].username){
+        for (let x = 0; x < totalaccounts.length;++x){
+          if((currentusersaccounts[i].username == totalaccounts[x].username) && (deposit_accountNum == totalaccounts[x].accNum) ){
             totalaccounts[x].accBal = deposit_amount;
             console.log('Deposit complete!');
             res.redirect('/dashboard');
