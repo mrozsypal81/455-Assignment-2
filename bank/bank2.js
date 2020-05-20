@@ -13,6 +13,9 @@ var xssFilters = require('xss-filters');
 //To read input/output from file
 const fs = require("fs");
 
+// The HTTPs module used for https
+const https = require("https");
+
 // Helmet CSP
 const csp = require('helmet-csp');
 app.use(csp({
@@ -484,4 +487,7 @@ app.post('/transfer', function(req, res)
   }
 });
 
-app.listen(3000);
+https.createServer({
+  key: fs.readFileSync('./server_key.pem'),  // The private key of the server.
+  cert: fs.readFileSync('./server_crt.pem'), // The actual certificate
+}, app).listen(3000);
