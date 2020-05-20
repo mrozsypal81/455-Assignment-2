@@ -19,7 +19,7 @@ app.use(csp({
   directives: {
     defaultSrc: ["self'"],
     scriptSrc: ["'self'"],
-    imgSrc: ["'self'"]//, 'i.imgur.com']
+    imgSrc: ["'self'"]
   }
 }));
 
@@ -69,39 +69,8 @@ let currentusersaccounts = [];
 app.get('/', function(req, res)
 {
 
-  let JsonReadAccounts = 0;
-  let JsonReadUsers = 0;
-
-  jsonReader('./AccountsData.json',(err,JsonReadA) =>{
-    if (err){
-      console.log(err);
-      return;
-    }
-    JsonReadAccounts = JsonReadA;
-  });
-
-  jsonReader('./UserData.json',(err,JsonReadU) =>{
-    if (err){
-      console.log(err);
-      return;
-    }
-    JsonReadUsers = JsonReadU;
-  });
-
-  console.log(JsonReadUsers);
-  for(let i = 0; i < JsonReadUsers.length;i++){
-    let tempuser = new User();
-    tempuser = JsonReadUsers.authorizedUsers[i];
-    console.log("Printing out Users from File");
-    console.log(tempuser);
-    authorizedUsers.push(tempuser);
-  }
-
-  for(let i = 0; i < JsonReadAccounts.length;i++){
-    let tempaccount = new userAccount();
-    tempaccount = JsonReadUsers.totalaccounts[i];
-    totalaccounts.push(tempaccount);
-  }
+  totalaccounts = require('./AccountsData.json');
+  authorizedUsers = require('./UserData.json')
 
 	// Is this user logged in?
 	if(req.session.username) {
@@ -113,21 +82,6 @@ app.get('/', function(req, res)
 		res.redirect('/userlogin');
 	}
 });
-
-//This function reads in JSON files and sets them to an object
-function jsonReader(filePath, cb) {
-  fs.readFile(filePath, (err, fileData) => {
-      if (err) {
-          return cb && cb(err);
-      }
-      try {
-          const object = JSON.parse(fileData)
-          return cb && cb(null, object)
-      } catch(err) {
-          return cb && cb(err);
-      }
-  })
-}
 
 app.get('/register', function(req, res)
 {
