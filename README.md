@@ -17,3 +17,5 @@ When first entering the server, you are brought to an login form. You can create
 Once logged in, the user is allowed to remain logged in through session cookies. This means that if the user remains idle, the cookie is invaldated after 3 minutes and is automatically logged out. Another way, we protected cookies is by using HTTP-only cookies. The user can also kill their session by logging out which will redirect them back to the login form and save all their banking data to another JSON file. This file contains the accounts that they created, how much they desposited and withdrew, and how much they transfered between accounts. 
 
 We also protected the banking application from XSS attacks by using CSP headers. This allows us to choose which websites we allow things from. For the application we only allow forms from our own program. 
+
+The banking app also only allows https connections http is refused at least when running the node server on a local machine on a linux virtual machine.It uses a self signed certificate and key which are secure but may cause warnings about insecurity upon start up.
