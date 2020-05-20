@@ -434,7 +434,7 @@ app.post('/deposit', function(req, res)
         console.log("Accessing account number",deposit_accountNum);
         for (let x = 0; x < totalaccounts.length;++x){
           if((currentusersaccounts[i].username === totalaccounts[x].username) && (parseInt(deposit_accountNum) === parseInt(totalaccounts[x].accNum)) ){
-            (parseFloat(totalaccounts[x].accBal) += parseFloat(deposit_amount)).toFixed(2);
+            (totalaccounts[x].accBal += parseFloat(deposit_amount)).toFixed(2);
             console.log('Deposit complete!');
             res.redirect('/dashboard');
           }
@@ -469,7 +469,7 @@ app.post('/withdraw', function(req, res)
         console.log("Accessing account number",withdraw_accountNum);
         for (let x = 0; x < totalaccounts.length;++x){
           if((currentusersaccounts[i].username === totalaccounts[x].username) && (parseInt(withdraw_accountNum) === parseInt(totalaccounts[x].accNum) && parseFloat(withdraw_amount) <= parseFloat(currentusersaccounts[i].accBal)) ){
-            (parseFloat(totalaccounts[x].accBal) -= parseFloat(withdraw_amount)).toFixed(2);
+            (totalaccounts[x].accBal -= parseFloat(withdraw_amount)).toFixed(2);
             console.log('Withdraw complete!');
             res.redirect('/dashboard');
           }
