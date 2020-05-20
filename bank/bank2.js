@@ -474,7 +474,7 @@ app.post('/withdraw', function(req, res)
             res.redirect('/dashboard');
           }
           else{
-            console.log("Input invalid. Withdraw an amount less than or equal to the Accout Balance.");
+            console.log("Input invalid. Withdraw an amount less than or equal to the Account Balance.");
             res.redirect('/dashboard');
           }
         }
@@ -532,7 +532,7 @@ app.post('/transfer', function(req, res)
       //This first loop will find the account to transfer from and its balance
       if(parseInt(transferFrom_accountNum) === parseInt(totalaccounts[i].accNum) && req.session.username === totalaccounts[i].username){
 
-        parseFloat(transferFrom_balance) = parseFloat(currentusersaccounts[i].accBal);
+        transferFrom_balance = parseFloat(currentusersaccounts[i].accBal);
 
         if(parseFloat(transfer_amount) <= parseFloat(transferFrom_balance)) {
 
