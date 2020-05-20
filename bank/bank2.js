@@ -271,7 +271,7 @@ app.post('/deposit', function(req, res)
         console.log("Accessing account number",deposit_accountNum);
         for (let x = 0; x < totalaccounts.length;++x){
           if((currentusersaccounts[i].username == totalaccounts[x].username) && (deposit_accountNum == totalaccounts[x].accNum) ){
-            totalaccounts[x].accBal = deposit_amount;
+            totalaccounts[x].accBal += parseFloat(deposit_amount);
             console.log('Deposit complete!');
             res.redirect('/dashboard');
           }
@@ -298,7 +298,9 @@ app.post('/addaccount', function(req, res){
     let AccountNum = currentUserNum + 1;
     console.log(AccountNum)
 
-    let newAccount = new userAccount(currentUser,AccountNum,add_type,0);
+    let balance = parseFloat(0)
+
+    let newAccount = new userAccount(currentUser,AccountNum,add_type,balance);
 
     totalaccounts.push(newAccount);
 
@@ -306,4 +308,55 @@ app.post('/addaccount', function(req, res){
     console.log('Add account: success!');
   }
 });
+
+app.post('/transfer', function(req, res)
+{
+  let transfer_amount = xssFilters.inHTMLData(req.body.amount);
+  let transferTo_accountNum = xssFilters.inHTMLData(req.body.selectpicker_to);
+  let transferFrom_accountNum = xssFilters.inHTMLData(req.body.selectpicker_from);
+  let numberOnly = /[0-9]/;
+  let validAmount = false;
+
+  if(parseInt(transfer_amount) > 0) {
+    validAmount = true;
+  }
+
+  if( numberOnly.test(transfer_amount) && validAmount && transferTo_accountNum != transferFrom_accountNum) {
+      
+    let transferFrom_balance = 0;
+
+    for (let i = 0; i < totalaccounts.length;++i){
+
+      //This first loop will find the account to transfer from and its balance
+      if(transferFrom_accountNum == totalaccounts[i].accNum && req.session.username == totalaccounts[i].username){
+
+        transferFrom_balance = currentusersaccounts[i].accBal;
+
+        if(parseFloat(transfer_amount) <= parseFloat(transferFrom_balance)) {
+
+          //This loop will find the account to transfer to and update balances of both accounts
+          for (let x = 0; x < totalaccounts.length;++x){
+            if(transferTo_accountNum == totalaccounts[x].accNum && req.session.username == totalaccounts[x].username){
+              totalaccounts[x].accBal += parseFloat(transfer_amount);
+              totalaccounts[i].accBal -= parseFloat(transfer_amount);
+
+              console.log('Transfer complete!');
+              res.redirect('/dashboard');
+            }
+          }
+        }
+         else if(transfer_amount >= transferFrom_balance){
+           res.send('Transfer amount exceeds account balance.');
+         }
+      }
+    }
+
+
+  }
+  else {
+    res.send( 'Input invalid.<br>Transfer an amount greater than 0.<br>' +
+              'Must transfer to a different account.');
+  }
+});
+
 app.listen(3000);
