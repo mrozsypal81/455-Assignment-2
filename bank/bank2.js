@@ -10,6 +10,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //XSS filters
 var xssFilters = require('xss-filters');
 
+//To read input/output from file
+const fs = require("fs");
+
 // Helmet CSP
 const csp = require('helmet-csp');
 app.use(csp({
@@ -65,6 +68,41 @@ let currentusersaccounts = [];
 // The default page
 app.get('/', function(req, res)
 {
+
+  let JsonReadAccounts = 0;
+  let JsonReadUsers = 0;
+
+  jsonReader('./AccountsData.json',(err,JsonReadA) =>{
+    if (err){
+      console.log(err);
+      return;
+    }
+    JsonReadAccounts = JsonReadA;
+  });
+
+  jsonReader('./UserData.json',(err,JsonReadU) =>{
+    if (err){
+      console.log(err);
+      return;
+    }
+    JsonReadUsers = JsonReadU;
+  });
+
+  //console.log(JsonReadUsers);
+  for(let i = 0; i < JsonReadUsers.length;i++){
+    let tempuser = new User();
+    tempuser = JsonReadUsers.authorizedUsers[i];
+    console.log("Printing out Users from File");
+    console.log(tempuser);
+    authorizedUsers.push(tempuser);
+  }
+
+  for(let i = 0; i < JsonReadAccounts.length;i++){
+    let tempaccount = new userAccount();
+    tempaccount = JsonReadUsers.totalaccounts[i];
+    totalaccounts.push(tempaccount);
+  }
+
 	// Is this user logged in?
 	if(req.session.username) {
 		// Yes!
@@ -75,6 +113,21 @@ app.get('/', function(req, res)
 		res.redirect('/userlogin');
 	}
 });
+
+//This function reads in JSON files and sets them to an object
+function jsonReader(filePath, cb) {
+  fs.readFile(filePath, (err, fileData) => {
+      if (err) {
+          return cb && cb(err);
+      }
+      try {
+          const object = JSON.parse(fileData)
+          return cb && cb(null, object)
+      } catch(err) {
+          return cb && cb(err);
+      }
+  })
+}
 
 app.get('/register', function(req, res)
 {
@@ -110,6 +163,28 @@ app.post('/register', function(req, res)
   if(password.match(check) && (password === confirmPass)){
     authorizedUsers.push(newUser)
     console.log(authorizedUsers);
+
+    //This saves all current users and accounts to file
+    //This is here and in logout because if the user does not press
+    //logout none of their data would be saved
+    let jsonAccounts = JSON.stringify(totalaccounts);
+    let jsonUsers = JSON.stringify(authorizedUsers);
+  
+    fs.writeFile('./AccountsData.json', jsonAccounts, err => {
+      if (err) {
+          console.log('Error writing Acc file', err)
+      } else {
+          console.log('Successfully wrote Acc file')
+      }
+    })
+  
+    fs.writeFile('./UserData.json', jsonUsers, err => {
+      if (err) {
+          console.log('Error writing User file', err)
+      } else {
+          console.log('Successfully wrote User file')
+      }
+    })
     res.redirect('/userlogin')
   }
   //if invalid, redirects user back to registration page to redo registration form
@@ -162,11 +237,42 @@ app.get('/dashboard', function(req, res)
 
   if(req.session.username){
 
+    // let JsonReadAccounts = 0;
+    // let JsonReadUsers = 0;
+  
+    // jsonReader('./AccountsData.json',(err,JsonReadA) =>{
+    //   if (err){
+    //     console.log(err);
+    //     return;
+    //   }
+    //   JsonReadAccounts = JsonReadA;
+    // });
+  
+    // jsonReader('./UserData.json',(err,JsonReadU) =>{
+    //   if (err){
+    //     console.log(err);
+    //     return;
+    //   }
+    //   JsonReadUsers = JsonReadU;
+    // });
+  
+    // for(let i = 0; i < JsonReadUsers.length;i++){
+    //   let tempuser = new User();
+    //   tempuser = JsonReadUsers.authorizedUsers[i];
+    //   authorizedUsers.push(tempuser);
+    // }
+  
+    // for(let i = 0; i < JsonReadAccounts.length;i++){
+    //   let tempaccount = new userAccount();
+    //   tempaccount = JsonReadUsers.totalaccounts[i];
+    //   totalaccounts.push(tempaccount);
+    // }
+
     let currentUser = req.session.username;
     
     //This will add all the users accounts to an array for the system to use
     for (let i = 0; i < totalaccounts.length;++i){
-      if(currentUser == totalaccounts[i].username){
+      if(currentUser === totalaccounts[i].username){
         console.log(totalaccounts[i]);
         currentusersaccounts.push(totalaccounts[i]);
       }
@@ -253,6 +359,28 @@ app.get('/dashboard', function(req, res)
     '</body>\n' +
     '</html>';
 
+    //This saves all current users and accounts to file
+    //This is here and in logout because if the user does not press
+    //logout none of their data would be saved
+    // let jsonAccounts = JSON.stringify(totalaccounts);
+    // let jsonUsers = JSON.stringify(authorizedUsers);
+  
+    // fs.writeFile('./AccountsData.json', jsonAccounts, err => {
+    //   if (err) {
+    //       console.log('Error writing Acc file', err)
+    //   } else {
+    //       console.log('Successfully wrote Acc file')
+    //   }
+    // })
+  
+    // fs.writeFile('./UserData.json', jsonUsers, err => {
+    //   if (err) {
+    //       console.log('Error writing User file', err)
+    //   } else {
+    //       console.log('Successfully wrote User file')
+    //   }
+    // })
+
     res.send(pageHtml);
 
 
@@ -262,6 +390,27 @@ app.get('/dashboard', function(req, res)
 });
 
 app.get('/logout', function(req, res){
+
+  let jsonAccounts = JSON.stringify(totalaccounts);
+  let jsonUsers = JSON.stringify(authorizedUsers);
+
+  fs.writeFile('./AccountsData.json', jsonAccounts, err => {
+    if (err) {
+        console.log('Error writing Acc file', err)
+    } else {
+        console.log('Successfully wrote Acc file')
+    }
+  })
+
+  fs.writeFile('./UserData.json', jsonUsers, err => {
+    if (err) {
+        console.log('Error writing User file', err)
+    } else {
+        console.log('Successfully wrote User file')
+    }
+  })
+
+
   //kill the session
   req.session.reset();
   res.redirect('/');
@@ -274,18 +423,18 @@ app.post('/deposit', function(req, res)
   let numberOnly = /[0-9]/;
   let validAmount = false;
 
-  if(parseInt(deposit_amount) > 0) {
+  if(parseFloat(deposit_amount) > 0) {
     validAmount = true;
   }
 
   if(numberOnly.test(deposit_amount) && validAmount){
     
     for (let i = 0; i < currentusersaccounts.length;++i){
-      if(deposit_accountNum == currentusersaccounts[i].accNum){
+      if(parseInt(deposit_accountNum) === parseInt(currentusersaccounts[i].accNum)){
         console.log("Accessing account number",deposit_accountNum);
         for (let x = 0; x < totalaccounts.length;++x){
-          if((currentusersaccounts[i].username == totalaccounts[x].username) && (deposit_accountNum == totalaccounts[x].accNum) ){
-            totalaccounts[x].accBal += parseFloat(deposit_amount);
+          if((currentusersaccounts[i].username === totalaccounts[x].username) && (parseInt(deposit_accountNum) === parseInt(totalaccounts[x].accNum)) ){
+            (parseFloat(totalaccounts[x].accBal) += parseFloat(deposit_amount)).toFixed(2);
             console.log('Deposit complete!');
             res.redirect('/dashboard');
           }
@@ -309,18 +458,18 @@ app.post('/withdraw', function(req, res)
   let numberOnly = /[0-9]/;
   let validAmount = false;
 
-  if(parseInt(withdraw_amount) > 0) {
+  if(parseFloat(withdraw_amount) > 0) {
     validAmount = true;
   }
 
   if(numberOnly.test(withdraw_amount) && validAmount){
     
     for (let i = 0; i < currentusersaccounts.length;++i){
-      if(withdraw_accountNum == currentusersaccounts[i].accNum){
+      if(parseInt(withdraw_accountNum) === parseInt(urrentusersaccounts[i].accNum)){
         console.log("Accessing account number",withdraw_accountNum);
         for (let x = 0; x < totalaccounts.length;++x){
-          if((currentusersaccounts[i].username == totalaccounts[x].username) && (withdraw_accountNum == totalaccounts[x].accNum && withdraw_amount <= currentusersaccounts[i].accBal) ){
-            totalaccounts[x].accBal -= parseFloat(withdraw_amount);
+          if((currentusersaccounts[i].username === totalaccounts[x].username) && (parseInt(withdraw_accountNum) === parseInt(totalaccounts[x].accNum) && parseFloat(withdraw_amount) <= parseFloat(currentusersaccounts[i].accBal)) ){
+            (parseFloat(totalaccounts[x].accBal) -= parseFloat(withdraw_amount)).toFixed(2);
             console.log('Withdraw complete!');
             res.redirect('/dashboard');
           }
@@ -370,7 +519,7 @@ app.post('/transfer', function(req, res)
   let numberOnly = /[0-9]/;
   let validAmount = false;
 
-  if(parseInt(transfer_amount) > 0) {
+  if(parseFloat(transfer_amount) > 0) {
     validAmount = true;
   }
 
@@ -381,24 +530,24 @@ app.post('/transfer', function(req, res)
     for (let i = 0; i < totalaccounts.length;++i){
 
       //This first loop will find the account to transfer from and its balance
-      if(transferFrom_accountNum == totalaccounts[i].accNum && req.session.username == totalaccounts[i].username){
+      if(parseInt(transferFrom_accountNum) === parseInt(totalaccounts[i].accNum) && req.session.username === totalaccounts[i].username){
 
-        transferFrom_balance = currentusersaccounts[i].accBal;
+        parseFloat(transferFrom_balance) = parseFloat(currentusersaccounts[i].accBal);
 
         if(parseFloat(transfer_amount) <= parseFloat(transferFrom_balance)) {
 
           //This loop will find the account to transfer to and update balances of both accounts
           for (let x = 0; x < totalaccounts.length;++x){
-            if(transferTo_accountNum == totalaccounts[x].accNum && req.session.username == totalaccounts[x].username){
-              totalaccounts[x].accBal += parseFloat(transfer_amount);
-              totalaccounts[i].accBal -= parseFloat(transfer_amount);
+            if(parseInt(transferTo_accountNum) === parseInt(totalaccounts[x].accNum) && req.session.username === totalaccounts[x].username){
+              (totalaccounts[x].accBal += parseFloat(transfer_amount)).toFixed(2);
+              (totalaccounts[i].accBal -= parseFloat(transfer_amount)).toFixed(2);
 
               console.log('Transfer complete!');
               res.redirect('/dashboard');
             }
           }
         }
-         else if(transfer_amount >= transferFrom_balance){
+         else if(parseFloat(transfer_amount) >= parseFLoat(transferFrom_balance)){
            res.send('Transfer amount exceeds account balance.');
          }
       }
