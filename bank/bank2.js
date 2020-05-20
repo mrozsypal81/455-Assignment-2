@@ -324,6 +324,10 @@ app.post('/withdraw', function(req, res)
             console.log('Withdraw complete!');
             res.redirect('/dashboard');
           }
+          else{
+            console.log("Input invalid. Withdraw an amount less than or equal to the Accout Balance.");
+            res.redirect('/dashboard');
+          }
         }
       }
     }
