@@ -540,7 +540,7 @@ app.post('/transfer', function(req, res)
           for (let x = 0; x < totalaccounts.length;++x){
             if(parseInt(transferTo_accountNum) === parseInt(totalaccounts[x].accNum) && req.session.username === totalaccounts[x].username){
               (totalaccounts[x].accBal += parseFloat(transfer_amount)).toFixed(2);
-              (totalaccounts[i].accBal -= parseFloat(transfer_amount)),toFixed(2);
+              (totalaccounts[i].accBal -= parseFloat(transfer_amount)).toFixed(2);
 
               console.log('Transfer complete!');
               res.redirect('/dashboard');
