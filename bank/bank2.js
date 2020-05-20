@@ -214,6 +214,20 @@ app.get('/dashboard', function(req, res)
     '</form>\n' +
     '</fieldset><br>\n' +
     '<fieldset>\n' +
+    '<legend>Withdraw</legend>\n' +
+    '<form action="/withdraw" method="post">\n' +
+    'Amount: $<input type="text" name="amount" value="0"><br><br>\n' +
+    'From: <select class="selectpicker" name="selectpicker_withdraw">\n';
+    for(let x = 0; x < currentusersaccounts.length; ++x) {
+      pageHtml += '' +
+      '<option value="'+ currentusersaccounts[x].accNum +'">Account No.'+ currentusersaccounts[x].accNum +'</option>\n';
+    }
+    pageHtml += '' +
+    '</select><br><br>\n' +
+    '<input type="submit" value="Submit">\n' +
+    '</form>\n' +
+    '</fieldset><br>\n' +
+    '<fieldset>\n' +
     '<legend>Transfer</legend>\n' +
     '<form action = "/transfer" method = "post">\n' +
     'Amount: $<input type="text" name="amount" value="0"><br><br>\n' +
@@ -282,6 +296,41 @@ app.post('/deposit', function(req, res)
   }
   else {
     console.log("Input invalid. Deposit an amount greater than 0.");
+    res.redirect('/dashboard');
+  }
+  
+
+});
+
+app.post('/withdraw', function(req, res)
+{
+  let withdraw_amount = xssFilters.inHTMLData(req.body.amount);
+  let withdraw_accountNum = xssFilters.inHTMLData(req.body.selectpicker_withdraw);
+  let numberOnly = /[0-9]/;
+  let validAmount = false;
+
+  if(parseInt(withdraw_amount) > 0) {
+    validAmount = true;
+  }
+
+  if(numberOnly.test(withdraw_amount) && validAmount){
+    
+    for (let i = 0; i < currentusersaccounts.length;++i){
+      if(withdraw_accountNum == currentusersaccounts[i].accNum){
+        console.log("Accessing account number",withdraw_accountNum);
+        for (let x = 0; x < totalaccounts.length;++x){
+          if((currentusersaccounts[i].username == totalaccounts[x].username) && (withdraw_accountNum == totalaccounts[x].accNum && withdraw_amount <= currentusersaccounts[i].accBal) ){
+            totalaccounts[x].accBal -= parseFloat(withdraw_amount);
+            console.log('Withdraw complete!');
+            res.redirect('/dashboard');
+          }
+        }
+      }
+    }
+    
+  }
+  else {
+    console.log("Input invalid. Withdraw an amount greater than 0.");
     res.redirect('/dashboard');
   }
   
