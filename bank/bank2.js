@@ -274,7 +274,7 @@ app.post('/deposit', function(req, res)
   let numberOnly = /[0-9]/;
   let validAmount = false;
 
-  if(parseInt(deposit_amount) > 0) {
+  if(parseFloat(deposit_amount) > 0) {
     validAmount = true;
   }
 
@@ -285,7 +285,7 @@ app.post('/deposit', function(req, res)
         console.log("Accessing account number",deposit_accountNum);
         for (let x = 0; x < totalaccounts.length;++x){
           if((currentusersaccounts[i].username == totalaccounts[x].username) && (deposit_accountNum == totalaccounts[x].accNum) ){
-            totalaccounts[x].accBal += parseFloat(deposit_amount);
+            (totalaccounts[x].accBal += parseFloat(deposit_amount)).toFixed(2);
             console.log('Deposit complete!');
             res.redirect('/dashboard');
           }
@@ -309,7 +309,7 @@ app.post('/withdraw', function(req, res)
   let numberOnly = /[0-9]/;
   let validAmount = false;
 
-  if(parseInt(withdraw_amount) > 0) {
+  if(parseFloat(withdraw_amount) > 0) {
     validAmount = true;
   }
 
@@ -320,7 +320,7 @@ app.post('/withdraw', function(req, res)
         console.log("Accessing account number",withdraw_accountNum);
         for (let x = 0; x < totalaccounts.length;++x){
           if((currentusersaccounts[i].username == totalaccounts[x].username) && (withdraw_accountNum == totalaccounts[x].accNum && withdraw_amount <= currentusersaccounts[i].accBal) ){
-            totalaccounts[x].accBal -= parseFloat(withdraw_amount);
+            (totalaccounts[x].accBal -= parseFloat(withdraw_amount)).toFixed(2);
             console.log('Withdraw complete!');
             res.redirect('/dashboard');
           }
@@ -370,7 +370,7 @@ app.post('/transfer', function(req, res)
   let numberOnly = /[0-9]/;
   let validAmount = false;
 
-  if(parseInt(transfer_amount) > 0) {
+  if(parseFloat(transfer_amount) > 0) {
     validAmount = true;
   }
 
@@ -390,8 +390,8 @@ app.post('/transfer', function(req, res)
           //This loop will find the account to transfer to and update balances of both accounts
           for (let x = 0; x < totalaccounts.length;++x){
             if(transferTo_accountNum == totalaccounts[x].accNum && req.session.username == totalaccounts[x].username){
-              totalaccounts[x].accBal += parseFloat(transfer_amount);
-              totalaccounts[i].accBal -= parseFloat(transfer_amount);
+              (totalaccounts[x].accBal += parseFloat(transfer_amount)).toFixed(2);
+              (totalaccounts[i].accBal -= parseFloat(transfer_amount)).toFixed(2);
 
               console.log('Transfer complete!');
               res.redirect('/dashboard');
