@@ -465,7 +465,7 @@ app.post('/withdraw', function(req, res)
   if(numberOnly.test(withdraw_amount) && validAmount){
     
     for (let i = 0; i < currentusersaccounts.length;++i){
-      if(parseInt(withdraw_accountNum) === parseInt(urrentusersaccounts[i].accNum)){
+      if(parseInt(withdraw_accountNum) === parseInt(currentusersaccounts[i].accNum)){
         console.log("Accessing account number",withdraw_accountNum);
         for (let x = 0; x < totalaccounts.length;++x){
           if((currentusersaccounts[i].username === totalaccounts[x].username) && (parseInt(withdraw_accountNum) === parseInt(totalaccounts[x].accNum) && parseFloat(withdraw_amount) <= parseFloat(currentusersaccounts[i].accBal)) ){
