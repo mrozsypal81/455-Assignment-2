@@ -182,7 +182,7 @@ app.post('/login', function(req, res)
     res.redirect('/dashboard');
   }
   else {
-    console.log("Wrong username or password. Please try again!);
+    console.log("Wrong username or password. Please try again!");
     res.redirect('/userlogin');
   }
 
