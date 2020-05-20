@@ -143,6 +143,7 @@ app.post('/register', function(req, res)
   }
   //if invalid, redirects user back to registration page to redo registration form
   else{
+    console.log('Invalid username or password. Please try again!');
     res.redirect('/register');
   }
 });
@@ -167,7 +168,6 @@ app.post('/login', function(req, res)
   for(let index = 0; index < authorizedUsers.length; index++){
     if(authorizedUsers[index].username === username.toLowerCase()){
       correctPass = authorizedUsers[index].password;
-      console.log("Got it!");
       break;
     }
   }
@@ -179,7 +179,8 @@ app.post('/login', function(req, res)
     res.redirect('/dashboard');
   }
   else {
-    res.send("wrong");
+    console.log("Wrong username or password. Please try again!);
+    res.redirect('/userlogin');
   }
 
 });
