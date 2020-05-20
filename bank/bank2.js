@@ -88,7 +88,7 @@ app.get('/', function(req, res)
     JsonReadUsers = JsonReadU;
   });
 
-  //console.log(JsonReadUsers);
+  console.log(JsonReadUsers);
   for(let i = 0; i < JsonReadUsers.length;i++){
     let tempuser = new User();
     tempuser = JsonReadUsers.authorizedUsers[i];
@@ -237,37 +237,6 @@ app.get('/dashboard', function(req, res)
 
   if(req.session.username){
 
-    // let JsonReadAccounts = 0;
-    // let JsonReadUsers = 0;
-  
-    // jsonReader('./AccountsData.json',(err,JsonReadA) =>{
-    //   if (err){
-    //     console.log(err);
-    //     return;
-    //   }
-    //   JsonReadAccounts = JsonReadA;
-    // });
-  
-    // jsonReader('./UserData.json',(err,JsonReadU) =>{
-    //   if (err){
-    //     console.log(err);
-    //     return;
-    //   }
-    //   JsonReadUsers = JsonReadU;
-    // });
-  
-    // for(let i = 0; i < JsonReadUsers.length;i++){
-    //   let tempuser = new User();
-    //   tempuser = JsonReadUsers.authorizedUsers[i];
-    //   authorizedUsers.push(tempuser);
-    // }
-  
-    // for(let i = 0; i < JsonReadAccounts.length;i++){
-    //   let tempaccount = new userAccount();
-    //   tempaccount = JsonReadUsers.totalaccounts[i];
-    //   totalaccounts.push(tempaccount);
-    // }
-
     let currentUser = req.session.username;
     
     //This will add all the users accounts to an array for the system to use
@@ -359,27 +328,27 @@ app.get('/dashboard', function(req, res)
     '</body>\n' +
     '</html>';
 
-    //This saves all current users and accounts to file
-    //This is here and in logout because if the user does not press
-    //logout none of their data would be saved
-    // let jsonAccounts = JSON.stringify(totalaccounts);
-    // let jsonUsers = JSON.stringify(authorizedUsers);
+    // This saves all current users and accounts to file
+    // This is here and in logout because if the user does not press
+    // logout none of their data would be saved
+    let jsonAccounts = JSON.stringify(totalaccounts);
+    let jsonUsers = JSON.stringify(authorizedUsers);
   
-    // fs.writeFile('./AccountsData.json', jsonAccounts, err => {
-    //   if (err) {
-    //       console.log('Error writing Acc file', err)
-    //   } else {
-    //       console.log('Successfully wrote Acc file')
-    //   }
-    // })
+    fs.writeFile('./AccountsData.json', jsonAccounts, err => {
+      if (err) {
+          console.log('Error writing Acc file', err)
+      } else {
+          console.log('Successfully wrote Acc file')
+      }
+    })
   
-    // fs.writeFile('./UserData.json', jsonUsers, err => {
-    //   if (err) {
-    //       console.log('Error writing User file', err)
-    //   } else {
-    //       console.log('Successfully wrote User file')
-    //   }
-    // })
+    fs.writeFile('./UserData.json', jsonUsers, err => {
+      if (err) {
+          console.log('Error writing User file', err)
+      } else {
+          console.log('Successfully wrote User file')
+      }
+    })
 
     res.send(pageHtml);
 
